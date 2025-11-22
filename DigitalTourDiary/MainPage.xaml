@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:DigitalTourDiary"
+             xmlns:models="clr-namespace:DigitalTourDiary.Models"
+             x:DataType="local:MainPageViewModel"
+             x:Class="DigitalTourDiary.MainPage"
+             Loaded="MainPage_OnLoaded">
+
+    <Grid RowDefinitions="Auto, Auto, Auto, *" WidthRequest="300" RowSpacing="0">
+
+        <!-- Fejléc - Profil sáv -->
+        <Grid Grid.Row="0" BackgroundColor="Orange" Padding="15,10" ColumnDefinitions="*, Auto">
+            <Label Grid.Column="0" 
+                   Text="Felhasználó Neve" 
+                   FontSize="20" 
+                   FontAttributes="Bold"
+                   TextColor="White"
+                   VerticalOptions="Center"/>
+
+            <Border Grid.Column="1" 
+                    WidthRequest="50" 
+                    HeightRequest="50"
+                    StrokeThickness="2"
+                    Stroke="White"
+                    StrokeShape="RoundRectangle 25"
+                    BackgroundColor="LightGray">
+                <Image Source="profile_placeholder.png" 
+                       Aspect="AspectFill"/>
+            </Border>
+        </Grid>
+
+        <!-- Elválasztó vonal -->
+        <BoxView Grid.Row="1" HeightRequest="2" Color="DarkOrange"/>
+
+        <!-- Túrák cím és részletes nézet kapcsoló -->
+        <Grid Grid.Row="2" Padding="15,10" ColumnDefinitions="*, Auto" BackgroundColor="LightYellow">
+            <Label Grid.Column="0" 
+                   Text="Túrák" 
+                   FontSize="18" 
+                   FontAttributes="Bold"
+                   VerticalOptions="Center"/>
+
+            <HorizontalStackLayout Grid.Column="1" Spacing="10">
+                <Label Text="Részletes" VerticalOptions="Center" FontSize="14"/>
+                <Switch IsToggled="{Binding IsFullViewEnabled}" VerticalOptions="Center"/>
+            </HorizontalStackLayout>
+        </Grid>
+
+        <!-- Túrák listája -->
+        <Border Grid.Row="3" 
+                StrokeThickness="0" 
+                BackgroundColor="LightYellow">
+            <CollectionView ItemsSource="{Binding Tours}" 
+                            SelectedItem="{Binding SelectedTour}"
+                            SelectionMode="Single">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Tour">
+                        <Border Margin="10,5" 
+                                Padding="15,10"
+                                Stroke="Orange" 
+                                StrokeThickness="2" 
+                                StrokeShape="RoundRectangle 10"
+                                BackgroundColor="White">
+                            <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, Auto, Auto, Auto">
+                                <Label Grid.Row="0" Grid.Column="0"
+                                       FontSize="18" 
+                                       FontAttributes="Bold" 
+                                       Text="{Binding Name}"/>
+
+                                <Label Grid.Row="1" Grid.Column="0"
+                                       FontSize="14" 
+                                       Text="{Binding Distance, StringFormat='{0:F2} km'}" 
+                                       IsVisible="{Binding BindingContext.IsFullViewEnabled, Source={RelativeSource AncestorType={x:Type ContentPage}}}"/>
+
+                                <Label Grid.Row="2" Grid.Column="0"
+                                       FontSize="14" 
+                                       Text="{Binding Date, StringFormat='{0:yyyy.MM.dd.}'}" 
+                                       IsVisible="{Binding BindingContext.IsFullViewEnabled, Source={RelativeSource AncestorType={x:Type ContentPage}}}"/>
+
+                                <Label Grid.Row="3" Grid.Column="0"
+                                       FontSize="14" 
+                                       Text="{Binding Duration, StringFormat='Időtartam: {0:hh\\:mm\\:ss}'}" 
+                                       IsVisible="{Binding BindingContext.IsFullViewEnabled, Source={RelativeSource AncestorType={x:Type ContentPage}}}"/>
+
+                                <!-- Művelet gombok jobb oldalon -->
+                                <HorizontalStackLayout Grid.Row="0" Grid.RowSpan="4" Grid.Column="1" 
+                                                       Spacing="5" 
+                                                       VerticalOptions="Center">
+                                    <Button Text="📋" 
+                                            FontSize="18"
+                                            WidthRequest="40"
+                                            HeightRequest="40"
+                                            CornerRadius="20"
+                                            Command="{Binding BindingContext.ShowTourDetailsCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+                                            BackgroundColor="LightBlue"/>
+                                    <Button Text="🗑️" 
+                                            FontSize="18"
+                                            WidthRequest="40"
+                                            HeightRequest="40"
+                                            CornerRadius="20"
+                                            Command="{Binding BindingContext.DeleteTourCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+                                            BackgroundColor="LightCoral"/>
+                                </HorizontalStackLayout>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Border>
+
+        <!-- Lebegő New gomb jobb alsó sarokban -->
+        <Button Grid.Row="3"
+                Text="+"
+                FontSize="32"
+                WidthRequest="60"
+                HeightRequest="60"
+                CornerRadius="30"
+                BackgroundColor="Orange"
+                TextColor="White"
+                HorizontalOptions="End"
+                VerticalOptions="End"
+                Margin="0,0,20,20"
+                Command="{Binding NewTourCommand}"
+                Shadow="{Shadow Brush=Black, Offset='5,5', Radius=10, Opacity=0.4}"/>
+    </Grid>
+</ContentPage>
