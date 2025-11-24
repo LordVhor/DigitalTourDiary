@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 
 namespace DigitalTourDiary
 {
+    [QueryProperty(nameof(EditedTour), "EditedTour")]
+    [QueryProperty(nameof(DeletedTour), "DeletedTour")]
     public partial class MainPageViewModel : ObservableObject
     {
         private ITourDatabase database;
@@ -22,7 +24,22 @@ namespace DigitalTourDiary
         [ObservableProperty]
         private Tour editedTour;
 
-        
+        [ObservableProperty]
+        private Tour? deletedTour;
+
+        async partial void OnDeletedTourChanged(Tour? value)
+        {
+            if (value != null)
+            {
+                var tourToRemove = Tours.FirstOrDefault(t => t.Id == value.Id);
+                if (tourToRemove != null)
+                {
+                    Tours.Remove(tourToRemove);
+                }
+                DeletedTour = null;
+                SelectedTour = null;
+            }
+        }
         async partial void OnEditedTourChanged(Tour value)
         {
             if (value != null)
@@ -65,9 +82,49 @@ namespace DigitalTourDiary
 
         public async Task InitializeAsync()
         {
-            var petList = await database.GetToursAsync();
+            var tourList = await database.GetToursAsync();
+
+            // Ha nincs adat, adj hozzá teszt túrákat
+            if (tourList.Count == 0)
+            {
+                await AddTestToursAsync();
+                tourList = await database.GetToursAsync();
+            }
+
             Tours.Clear();
-            petList.ForEach(p => Tours.Add(p));
+            tourList.ForEach(p => Tours.Add(p));
+        }
+
+        private async Task AddTestToursAsync()
+        {
+            // 1. teszt túra - Budapest körút
+            var tour1 = new Tour
+            {
+                Name = "Budai várnegyed séta",
+                Date = DateTime.Today.AddDays(-5),
+                Duration = new TimeSpan(1, 30, 0) // 1 óra 30 perc
+            };
+            tour1.AddRoutePoint(47.4979, 19.0402, DateTime.Now.AddMinutes(-90));
+            tour1.AddRoutePoint(47.4985, 19.0408, DateTime.Now.AddMinutes(-80));
+            tour1.AddRoutePoint(47.4990, 19.0415, DateTime.Now.AddMinutes(-70));
+            tour1.AddRoutePoint(47.4995, 19.0420, DateTime.Now.AddMinutes(-60));
+            tour1.CalculateDistance();
+            await database.CreateTourAsync(tour1);
+
+            // 2. teszt túra - Margitsziget
+            var tour2 = new Tour
+            {
+                Name = "Margitszigeti kör",
+                Date = DateTime.Today.AddDays(-2),
+                Duration = new TimeSpan(0, 45, 0) // 45 perc
+            };
+            tour2.AddRoutePoint(47.5270, 19.0520, DateTime.Now.AddMinutes(-45));
+            tour2.AddRoutePoint(47.5280, 19.0530, DateTime.Now.AddMinutes(-35));
+            tour2.AddRoutePoint(47.5290, 19.0525, DateTime.Now.AddMinutes(-25));
+            tour2.AddRoutePoint(47.5295, 19.0515, DateTime.Now.AddMinutes(-15));
+            tour2.AddRoutePoint(47.5270, 19.0520, DateTime.Now.AddMinutes(-5));
+            tour2.CalculateDistance();
+            await database.CreateTourAsync(tour2);
         }
 
         [RelayCommand]
@@ -79,7 +136,7 @@ namespace DigitalTourDiary
             {
                 { "Tour", SelectedTour }
             };
-                await Shell.Current.GoToAsync("Tourdetails", param);
+                await Shell.Current.GoToAsync("edittour", param);
             }
         }
 

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:mapsui="clr-namespace:Mapsui.UI.Maui;assembly=Mapsui.UI.Maui"
+             x:Class="DigitalTourDiary.EditTourPage">
+    <ContentPage.Resources>
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="Medium"/>
+            <Setter Property="FontAttributes" Value="Bold"/>
+        </Style>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto,*" RowSpacing="0">
+
+        <!-- Felső rész: Szerkeszthető adatok -->
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Spacing="10" Padding="10">
+                <Label Text="Name"/>
+                <Entry Text="{Binding Draft.Name}"/>
+
+                <HorizontalStackLayout Spacing="10" HorizontalOptions="Center" Margin="0,10,0,0">
+                    <Button Text="Delete" 
+                            Command="{Binding DeleteTourCommand}" 
+                            BackgroundColor="Red" 
+                            TextColor="White"/>
+                    <Button Text="Cancel" 
+                            Command="{Binding CancelEditCommand}"/>
+                    <Button Text="Save" 
+                            Command="{Binding SaveTourCommand}"/>
+                </HorizontalStackLayout>
+
+                <!-- 3 nem szerkeszthető adat egy sorban -->
+                <Grid ColumnDefinitions="*,*,*" ColumnSpacing="10" Margin="0,10,0,0">
+                    <VerticalStackLayout Grid.Column="0" Spacing="5">
+                        <Label Text="Date" HorizontalOptions="Center"/>
+                        <Label Text="{Binding Draft.Date, StringFormat='{0:yyyy.MM.dd.}'}" 
+                               FontAttributes="None" 
+                               HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Grid.Column="1" Spacing="5">
+                        <Label Text="Distance (km)" HorizontalOptions="Center"/>
+                        <Label Text="{Binding Draft.Distance, StringFormat='{0:F2}'}" 
+                               FontAttributes="None" 
+                               HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Grid.Column="2" Spacing="5">
+                        <Label Text="Duration" HorizontalOptions="Center"/>
+                        <Label Text="{Binding Draft.Duration, StringFormat='{0:hh\\:mm\\:ss}'}" 
+                               FontAttributes="None" 
+                               HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
+                </Grid>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Alsó rész: Térkép (Mapsui) -->
+        <Border Grid.Row="1" StrokeThickness="2" Stroke="Gray">
+            <mapsui:MapControl x:Name="MapControl"/>
+        </Border>
+
+    </Grid>
+</ContentPage>

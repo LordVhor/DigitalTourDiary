@@ -22,6 +22,9 @@ namespace DigitalTourDiary
 
         public SQLightTourDatabase()
         {
+
+            //if (File.Exists(databasePath))
+            //    File.Delete(databasePath);
             database = new SQLiteAsyncConnection(databasePath, Flags); 
 
 
