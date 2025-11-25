@@ -6,6 +6,8 @@
         {
             InitializeComponent();
             Routing.RegisterRoute("edittour", typeof(EditTourPage));
+            Routing.RegisterRoute("newtour", typeof(NewTourPage));
+            //Routing.RegisterRoute("useredit", typeof(UserEditPage));
         }
     }
 }

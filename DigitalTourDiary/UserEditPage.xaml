@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:DigitalTourDiary"
+             x:Class="DigitalTourDiary.UserEditPage"
+             x:DataType="local:UserEditPageViewModel"
+             Title="Profil szerkesztése">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="20" HorizontalOptions="Center" WidthRequest="400">
+
+            <!-- Profilkép -->
+            <Border WidthRequest="150" 
+                    HeightRequest="150"
+                    StrokeThickness="4"
+                    Stroke="Orange"
+                    StrokeShape="RoundRectangle 75"
+                    HorizontalOptions="Center"
+                    BackgroundColor="LightGray">
+                <Image Source="{Binding ProfileImagePath}" 
+                       Aspect="AspectFill"/>
+            </Border>
+
+            <!-- Kép gombok -->
+            <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                <Button Text="📷 Fotó" 
+                        Command="{Binding TakePhotoCommand}"
+                        BackgroundColor="Orange"
+                        TextColor="White"/>
+                <Button Text="🖼️ Galéria" 
+                        Command="{Binding PickImageCommand}"
+                        BackgroundColor="Orange"
+                        TextColor="White"/>
+            </HorizontalStackLayout>
+
+            <!-- Név szerkesztése -->
+            <VerticalStackLayout Spacing="10">
+                <Label Text="Név" 
+                       FontSize="Medium" 
+                       FontAttributes="Bold"/>
+                <Entry Text="{Binding UserName}" 
+                       FontSize="18"
+                       Placeholder="Add meg a neved"/>
+            </VerticalStackLayout>
+
+            <!-- Mentés/Mégse gombok -->
+            <HorizontalStackLayout Spacing="10" HorizontalOptions="Center" Margin="0,20,0,0">
+                <Button Text="💾 Mentés" 
+                        Command="{Binding SaveCommand}"
+                        BackgroundColor="Green"
+                        TextColor="White"
+                        WidthRequest="120"/>
+                <Button Text="❌ Mégse" 
+                        Command="{Binding CancelCommand}"
+                        BackgroundColor="Gray"
+                        TextColor="White"
+                        WidthRequest="120"/>
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

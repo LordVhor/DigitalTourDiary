@@ -58,7 +58,7 @@ namespace DigitalTourDiary
                 {
                     await database.DeleteTourAsync(Draft);
 
-                    // Küld vissza paramétert, hogy törölve lett
+                    
                     var param = new ShellNavigationQueryParameters
                     {
                         { "DeletedTour", Draft }

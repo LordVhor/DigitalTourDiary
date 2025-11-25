@@ -140,16 +140,16 @@ namespace DigitalTourDiary
             }
         }
 
-        [RelayCommand]
-        public async Task NewTourAsync()
-        {
-            selectedTour = null;
-            var param = new ShellNavigationQueryParameters
-            {
-                { "Tour", new Tour(){Date = DateTime.Today} }
-            };
-            await Shell.Current.GoToAsync("edittour", param);
-        }
+        //[RelayCommand]
+        //public async Task NewTourAsync()
+        //{
+        //    selectedTour = null;
+        //    var param = new ShellNavigationQueryParameters
+        //    {
+        //        { "Tour", new Tour(){Date = DateTime.Today} }
+        //    };
+        //    await Shell.Current.GoToAsync("edittour", param);
+        //}
 
         [RelayCommand]
         public async Task EditTourAsync()
@@ -166,6 +166,11 @@ namespace DigitalTourDiary
             {
                 WeakReferenceMessenger.Default.Send("Select a tour to edit.");
             }
+        }
+        [RelayCommand]
+        public async Task NewTourAsync()
+        {
+            await Shell.Current.GoToAsync("newtour");
         }
 
         [RelayCommand]
@@ -184,6 +189,25 @@ namespace DigitalTourDiary
 
         }
 
+        public string UserName
+        {
+            get => Preferences.Default.Get("user_name", "Felhasználó Neve");
+        }
 
+        public string ProfileImagePath
+        {
+            get => Preferences.Default.Get("profile_image", "profile_placeholder.png");
+        }
+
+        [RelayCommand]
+        public async Task OpenUserEdit()
+        {
+            await Shell.Current.GoToAsync("useredit");
+        }
+        public void RefreshUserProfile()
+        {
+            OnPropertyChanged(nameof(UserName));
+            OnPropertyChanged(nameof(ProfileImagePath));
+        }
     }
 }

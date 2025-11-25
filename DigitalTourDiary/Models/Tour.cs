@@ -28,11 +28,11 @@ namespace DigitalTourDiary.Models
         [ObservableProperty]
         TimeSpan duration;
 
-        // GPS koordináták JSON stringként tárolva SQLite-ban
+        // GPS koordináták JSON stringként
         [ObservableProperty]
         string routeDataJson;
 
-        // Memóriában használt koordináta lista (nem megy az adatbázisba)
+        // Adatbázis ignorálja
         [Ignore]
         public List<LocationPoint> RoutePoints
         {
@@ -62,7 +62,7 @@ namespace DigitalTourDiary.Models
             return (Tour)this.MemberwiseClone();
         }
 
-        // Segédmetódus: GPS pont hozzáadása
+        // (GPS pont)
         public void AddRoutePoint(double latitude, double longitude, DateTime timestamp)
         {
             var points = RoutePoints;
@@ -75,7 +75,7 @@ namespace DigitalTourDiary.Models
             RoutePoints = points;
         }
 
-        // Segédmetódus: Távolság számítása az útvonal alapján
+        
         public void CalculateDistance()
         {
             var points = RoutePoints;
@@ -97,7 +97,7 @@ namespace DigitalTourDiary.Models
             Distance = totalDistance;
         }
 
-        // Haversine formula - távolság számítása két GPS pont között (km-ben)
+        
         private double CalculateDistanceBetweenPoints(double lat1, double lon1, double lat2, double lon2)
         {
             const double earthRadius = 6371; // km
@@ -120,7 +120,7 @@ namespace DigitalTourDiary.Models
         }
     }
 
-    // GPS pont osztály
+    // GPS pont osztály (RoutePoint)
     public class LocationPoint
     {
         public double Latitude { get; set; }

@@ -12,7 +12,7 @@
 
     <Grid RowDefinitions="Auto,*" RowSpacing="0">
 
-        <!-- Felső rész: Szerkeszthető adatok -->
+        <!-- felső rész, adatok-->
         <ScrollView Grid.Row="0">
             <VerticalStackLayout Spacing="10" Padding="10">
                 <Label Text="Name"/>
@@ -24,12 +24,16 @@
                             BackgroundColor="Red" 
                             TextColor="White"/>
                     <Button Text="Cancel" 
-                            Command="{Binding CancelEditCommand}"/>
+                            Command="{Binding CancelEditCommand}"
+                            BackgroundColor="Yellow"
+                            TextColor="Black"/>
                     <Button Text="Save" 
-                            Command="{Binding SaveTourCommand}"/>
+                            Command="{Binding SaveTourCommand}"
+                            BackgroundColor="Green"
+                            TextColor="White"/>
                 </HorizontalStackLayout>
 
-                <!-- 3 nem szerkeszthető adat egy sorban -->
+                
                 <Grid ColumnDefinitions="*,*,*" ColumnSpacing="10" Margin="0,10,0,0">
                     <VerticalStackLayout Grid.Column="0" Spacing="5">
                         <Label Text="Date" HorizontalOptions="Center"/>
@@ -56,7 +60,7 @@
             </VerticalStackLayout>
         </ScrollView>
 
-        <!-- Alsó rész: Térkép (Mapsui) -->
+        <!-- Alsó rész: Térkép -->
         <Border Grid.Row="1" StrokeThickness="2" Stroke="Gray">
             <mapsui:MapControl x:Name="MapControl"/>
         </Border>

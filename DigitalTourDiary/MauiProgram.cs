@@ -21,6 +21,10 @@ namespace DigitalTourDiary
             builder.Services.AddSingleton<MainPage>();
             builder.Services.AddTransient<EditTourPageViewModel>();
             builder.Services.AddTransient<EditTourPage>();
+            builder.Services.AddTransient<NewTourPageViewModel>();
+            builder.Services.AddTransient<NewTourPage>();
+            //builder.Services.AddTransient<UserEditPageViewModel>();
+            //builder.Services.AddTransient<UserEditPage>();
 
 #if DEBUG
             builder.Logging.AddDebug();

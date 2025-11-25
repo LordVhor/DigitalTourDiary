@@ -25,16 +25,16 @@ namespace DigitalTourDiary
 
         private void InitializeMap()
         {
-            // OpenStreetMap háttér hozzáadása
+            
             MapControl.Map = new Mapsui.Map
             {
                 CRS = "EPSG:3857",
             };
 
-            // OpenStreetMap tile layer
+            // layer
             MapControl.Map.Layers.Add(OpenStreetMap.CreateTileLayer());
 
-            // Alapértelmezett Budapest koordináta
+            // Gellérthegy
             var centerPoint = SphericalMercator.FromLonLat(19.0402, 47.4979);
             MapControl.Map.Home = n => n.CenterOnAndZoomTo(centerPoint.ToMPoint(), n.Resolutions[12]);
         }
@@ -86,7 +86,7 @@ namespace DigitalTourDiary
         {
             var features = new List<IFeature>();
 
-            // Útvonal vonal létrehozása
+            // Útvonal rajz
             var lineString = new LineString(
                 routePoints.Select(p =>
                 {

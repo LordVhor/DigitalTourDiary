@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:DigitalTourDiary"
+             xmlns:mapsui="clr-namespace:Mapsui.UI.Maui;assembly=Mapsui.UI.Maui"
+             x:Class="DigitalTourDiary.NewTourPage"
+             x:DataType="local:NewTourPageViewModel"
+             Title="Új túra rögzítése">
+
+    <Grid RowDefinitions="Auto,*" RowSpacing="10" Padding="10">
+
+        
+        <Grid Grid.Row="0" ColumnDefinitions="*,*,*" ColumnSpacing="10">
+            <VerticalStackLayout Grid.Column="0" Spacing="5">
+                <Label Text="Date" HorizontalOptions="Center" FontSize="Small" FontAttributes="Bold"/>
+                <Label Text="{Binding CurrentTour.Date, StringFormat='{0:yyyy.MM.dd.}'}" 
+                       FontAttributes="None" 
+                       HorizontalOptions="Center"
+                       FontSize="Medium"/>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Grid.Column="1" Spacing="5">
+                <Label Text="Distance (km)" HorizontalOptions="Center" FontSize="Small" FontAttributes="Bold"/>
+                <Label Text="{Binding CurrentTour.Distance, StringFormat='{0:F2}'}" 
+                       FontAttributes="None" 
+                       HorizontalOptions="Center"
+                       FontSize="Medium"/>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Grid.Column="2" Spacing="5">
+                <Label Text="Duration" HorizontalOptions="Center" FontSize="Small" FontAttributes="Bold"/>
+                <Label Text="{Binding CurrentTour.Duration, StringFormat='{0:hh\\:mm\\:ss}'}" 
+                       FontAttributes="None" 
+                       HorizontalOptions="Center"
+                       FontSize="Medium"/>
+            </VerticalStackLayout>
+        </Grid>
+
+        <!-- Térkép -->
+        <Border Grid.Row="1" StrokeThickness="2" Stroke="Orange">
+            <mapsui:MapControl x:Name="MapControl"/>
+        </Border>
+
+        <!-- Lebegő Stop gomb -->
+        <Button Grid.Row="1"
+                Text="⏹️ Stop"
+                FontSize="24"
+                WidthRequest="80"
+                HeightRequest="60"
+                CornerRadius="10"
+                BackgroundColor="Red"
+                TextColor="White"
+                HorizontalOptions="Start"
+                VerticalOptions="End"
+                Margin="20,0,0,20"
+                Command="{Binding StopAndSaveCommand}"
+                IsVisible="{Binding IsTracking}"
+                Shadow="{Shadow Brush=Black, Offset='5,5', Radius=10, Opacity=0.4}"/>
+
+    </Grid>
+</ContentPage>
