@@ -20,11 +20,14 @@ namespace DigitalTourDiary
         {
             await viewModel.InitializeAsync();
         }
-        //protected override async void OnAppearing()
-        //{
-        //    base.OnAppearing();
-        //    await viewModel.InitializeAsync();
-        //}
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+            await viewModel.InitializeAsync();
+
+
+            viewModel.RefreshUserProfile();
+        }
     }
 
 }

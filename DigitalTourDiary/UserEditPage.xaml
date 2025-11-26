@@ -9,7 +9,7 @@
     <ScrollView>
         <VerticalStackLayout Spacing="20" Padding="20" HorizontalOptions="Center" WidthRequest="400">
 
-            <!-- Profilkép -->
+            
             <Border WidthRequest="150" 
                     HeightRequest="150"
                     StrokeThickness="4"
@@ -21,21 +21,21 @@
                        Aspect="AspectFill"/>
             </Border>
 
-            <!-- Kép gombok -->
+            
             <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
-                <Button Text="📷 Fotó" 
+                <Button Text="📷" 
                         Command="{Binding TakePhotoCommand}"
                         BackgroundColor="Orange"
                         TextColor="White"/>
-                <Button Text="🖼️ Galéria" 
+                <Button Text="Galery" 
                         Command="{Binding PickImageCommand}"
                         BackgroundColor="Orange"
                         TextColor="White"/>
             </HorizontalStackLayout>
 
-            <!-- Név szerkesztése -->
+            
             <VerticalStackLayout Spacing="10">
-                <Label Text="Név" 
+                <Label Text="Name" 
                        FontSize="Medium" 
                        FontAttributes="Bold"/>
                 <Entry Text="{Binding UserName}" 
@@ -43,16 +43,16 @@
                        Placeholder="Add meg a neved"/>
             </VerticalStackLayout>
 
-            <!-- Mentés/Mégse gombok -->
+            
             <HorizontalStackLayout Spacing="10" HorizontalOptions="Center" Margin="0,20,0,0">
-                <Button Text="💾 Mentés" 
+                <Button Text="Cancel" 
+                        Command="{Binding CancelCommand}"
+                        BackgroundColor="Yellow"
+                        TextColor="Black"
+                        WidthRequest="120"/>
+                <Button Text="Save" 
                         Command="{Binding SaveCommand}"
                         BackgroundColor="Green"
-                        TextColor="White"
-                        WidthRequest="120"/>
-                <Button Text="❌ Mégse" 
-                        Command="{Binding CancelCommand}"
-                        BackgroundColor="Gray"
                         TextColor="White"
                         WidthRequest="120"/>
             </HorizontalStackLayout>

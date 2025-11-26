@@ -42,7 +42,7 @@ namespace DigitalTourDiary
                 status = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
             }
 
-            if (status == PermissionStatus.Granted)
+            if (status == PermissionStatus.Granted)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
             {
                 StartTracking();
             }
@@ -133,7 +133,11 @@ namespace DigitalTourDiary
             if (IsTracking)
             {
                 CurrentTour.Duration = DateTime.Now - startTime;
-                OnPropertyChanged(nameof(CurrentTour));
+
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    OnPropertyChanged(nameof(CurrentTour));
+                });
             }
         }
 

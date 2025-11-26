@@ -56,7 +56,7 @@ namespace DigitalTourDiary
             var routePoints = VM.CurrentTour.RoutePoints;
 
             if (routePoints.Count == 0)
-            {
+            { 
                 var budapestPoint = SphericalMercator.FromLonLat(19.0402, 47.4979);
                 MapControl.Map?.Navigator.CenterOnAndZoomTo(budapestPoint.ToMPoint(), MapControl.Map.Navigator.Resolutions[14]);
                 return;
@@ -153,9 +153,12 @@ namespace DigitalTourDiary
                     Features = new[] { currentFeature },
                     Style = null
                 });
-
-                // Kamera követi az aktuális pozíciót FÍCSÖR
-                MapControl.Map?.Navigator.CenterOnAndZoomTo(currentPoint.ToMPoint(), MapControl.Map.Navigator.Resolutions[14]);
+                //Odaugrunk ahol vagyunk
+                if (routePoints.Count == 1)
+                {
+                    var firstPoint = SphericalMercator.FromLonLat(routePoints[0].Longitude, routePoints[0].Latitude);
+                    MapControl.Map?.Navigator.CenterOnAndZoomTo(firstPoint.ToMPoint(), MapControl.Map.Navigator.Resolutions[14]);
+                }
             }
         }
     }

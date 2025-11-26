@@ -84,7 +84,7 @@ namespace DigitalTourDiary
         {
             var tourList = await database.GetToursAsync();
 
-            // Ha nincs adat, adj hozzá teszt túrákat
+            // Ha nincs adat
             if (tourList.Count == 0)
             {
                 await AddTestToursAsync();

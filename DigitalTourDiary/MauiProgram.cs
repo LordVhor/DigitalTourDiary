@@ -23,8 +23,8 @@ namespace DigitalTourDiary
             builder.Services.AddTransient<EditTourPage>();
             builder.Services.AddTransient<NewTourPageViewModel>();
             builder.Services.AddTransient<NewTourPage>();
-            //builder.Services.AddTransient<UserEditPageViewModel>();
-            //builder.Services.AddTransient<UserEditPage>();
+            builder.Services.AddTransient<UserEditPageViewModel>();
+            builder.Services.AddTransient<UserEditPage>();
 
 #if DEBUG
             builder.Logging.AddDebug();

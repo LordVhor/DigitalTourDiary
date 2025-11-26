@@ -12,10 +12,10 @@
         <!-- Fejléc - Profil sáv -->
         <Grid Grid.Row="0" BackgroundColor="Orange" Padding="15,10" ColumnDefinitions="*, Auto">
             <Label Grid.Column="0" 
-                   Text="Felhasználó Neve" 
+                   Text="{Binding UserName}" 
                    FontSize="20" 
                    FontAttributes="Bold"
-                   TextColor="White"
+                   TextColor="Black"
                    VerticalOptions="Center"/>
 
             <Border Grid.Column="1" 
@@ -25,7 +25,10 @@
                     Stroke="White"
                     StrokeShape="RoundRectangle 25"
                     BackgroundColor="LightGray">
-                <Image Source="profile_placeholder.png" 
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding OpenUserEditCommand}"/>
+                </Border.GestureRecognizers>
+                <Image Source="{Binding ProfileImagePath}" 
                        Aspect="AspectFill"/>
             </Border>
         </Grid>
