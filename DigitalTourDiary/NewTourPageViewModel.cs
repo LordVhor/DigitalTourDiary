@@ -30,8 +30,12 @@ namespace DigitalTourDiary
                 Date = DateTime.Today
             };
 
-
-            _ = RequestPermissionsAndStart();
+            RequestPermissionsAndStartStarter();
+            //_ = RequestPermissionsAndStart();
+        }
+        private async void RequestPermissionsAndStartStarter()
+        {
+            await RequestPermissionsAndStart();
         }
         private async Task RequestPermissionsAndStart()
         {
@@ -167,29 +171,29 @@ namespace DigitalTourDiary
             catch (Exception ex)
             {
                 // Ez egy fícsör (windowson nemnagyon tudok lokációt lekérni)
-                await SimulateGPSUpdate();
+                //await SimulateGPSUpdate();
             }
         }
 
         // :))))
-        private async Task SimulateGPSUpdate()
-        {
-            if (!IsTracking) return;
+        //private async Task SimulateGPSUpdate()
+        //{
+        //    if (!IsTracking) return;
 
-            var random = new Random();
-            var baseLat = 47.4979;
-            var baseLon = 19.0402;
+        //    var random = new Random();
+        //    var baseLat = 47.4979;
+        //    var baseLon = 19.0402;
 
-            var newLat = baseLat + (random.NextDouble() - 0.5) * 0.01;
-            var newLon = baseLon + (random.NextDouble() - 0.5) * 0.01;
+        //    var newLat = baseLat + (random.NextDouble() - 0.5) * 0.01;
+        //    var newLon = baseLon + (random.NextDouble() - 0.5) * 0.01;
 
-            await MainThread.InvokeOnMainThreadAsync(() =>
-            {
-                CurrentTour.AddRoutePoint(newLat, newLon, DateTime.Now);
-                CurrentTour.CalculateDistance();
-                OnPropertyChanged(nameof(CurrentTour));
-            });
-        }
+        //    await MainThread.InvokeOnMainThreadAsync(() =>
+        //    {
+        //        CurrentTour.AddRoutePoint(newLat, newLon, DateTime.Now);
+        //        CurrentTour.CalculateDistance();
+        //        OnPropertyChanged(nameof(CurrentTour));
+        //    });
+        //}
 
         public void Cleanup()
         {

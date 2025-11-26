@@ -23,7 +23,7 @@ namespace DigitalTourDiary
 
             InitializeMap();
 
-            // Térkép automatikus frissítése (2 másodpercenként)
+            // Térkép frissítése
             mapRefreshTimer = new System.Timers.Timer(2000);
             mapRefreshTimer.Elapsed += (s, e) => MainThread.BeginInvokeOnMainThread(UpdateMap);
             mapRefreshTimer.Start();

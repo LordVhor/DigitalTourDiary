@@ -31,7 +31,7 @@ namespace DigitalTourDiary
 
                 if (result != null)
                 {
-                    // Másold a képet az app mappájába
+                    
                     var newPath = Path.Combine(FileSystem.AppDataDirectory, $"profile_{DateTime.Now.Ticks}.jpg");
 
                     using (var stream = await result.OpenReadAsync())
