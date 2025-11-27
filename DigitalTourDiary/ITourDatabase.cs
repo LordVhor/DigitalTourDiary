@@ -15,5 +15,14 @@ namespace DigitalTourDiary
         Task CreateTourAsync(Tour tour);
         Task UpdateTourAsync(Tour tour);
         Task DeleteTourAsync(Tour tour);
+
+
+
+
+
+        Task<List<TourPhoto>> GetTourPhotosAsync(int tourId);
+        Task<TourPhoto> GetPhotoAsync(int photoId);
+        Task CreatePhotoAsync(TourPhoto photo);
+        Task DeletePhotoAsync(TourPhoto photo);
     }
 }

@@ -31,13 +31,26 @@ namespace DigitalTourDiary
             
 
             database.CreateTableAsync<Tour>().Wait();
+
+
+
+            database.CreateTableAsync<TourPhoto>().Wait();
         }
 
         public async Task CreateTourAsync(Tour tour)
         {
             await database.InsertAsync(tour);
-        }
+            // FONTOS: Az insert után már van ID! De az objektumon még nem látszik!
+            // Újra lekérdezzük az utoljára beszúrt tour-t
+            var inserted = await database.Table<Tour>()
+                .OrderByDescending(t => t.Id)
+                .FirstOrDefaultAsync();
 
+            if (inserted != null)
+            {
+                tour.Id = inserted.Id;  // Frissítsd az eredeti objektumon is!
+            }
+        }
         public async Task DeleteTourAsync(Tour tour)
         {
             await database.DeleteAsync(tour);
@@ -56,6 +69,37 @@ namespace DigitalTourDiary
         public async Task UpdateTourAsync(Tour tour)
         {
             await database.UpdateAsync(tour);
+        }
+
+
+
+
+
+
+
+
+        
+
+        // Fotók lekérése egy túrához
+        public async Task<List<TourPhoto>> GetTourPhotosAsync(int tourId)
+        {
+            return await database.Table<TourPhoto>()
+                .Where(p => p.TourId == tourId)
+                .OrderBy(p => p.Timestamp)
+                .ToListAsync();
+        }
+        public async Task<TourPhoto> GetPhotoAsync(int id)
+        {
+            return await database.Table<TourPhoto>().Where(i => i.Id == id).FirstOrDefaultAsync();
+        }
+        public async Task CreatePhotoAsync(TourPhoto photo)
+        {
+            await database.InsertAsync(photo);
+        }
+
+        public async Task DeletePhotoAsync(TourPhoto photo)
+        {
+            await database.DeleteAsync(photo);
         }
     }
 }

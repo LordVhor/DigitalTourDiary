@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:DigitalTourDiary"
+             x:Class="DigitalTourDiary.PhotoViewerPage"
+             x:DataType="local:PhotoViewerPageViewModel"
+             Title="Fotó megtekintése"
+             BackgroundColor="Black">
+
+    <Grid RowDefinitions="Auto,*,Auto" RowSpacing="0">
+
+        <!-- Fejléc -->
+        <Grid Grid.Row="0" BackgroundColor="#222222" Padding="15,10" ColumnDefinitions="Auto,*,Auto">
+            <Button Grid.Column="0" 
+                    Text="←" 
+                    FontSize="24"
+                    BackgroundColor="Transparent"
+                    TextColor="White"
+                    Command="{Binding CloseCommand}"/>
+
+            <Label Grid.Column="1" 
+                   Text="{Binding PhotoCounter}" 
+                   FontSize="18"
+                   TextColor="White"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"/>
+
+            <Button Grid.Column="2" 
+                    Text="❌" 
+                    FontSize="20"
+                    BackgroundColor="Transparent"
+                    TextColor="White"
+                    Command="{Binding CloseCommand}"/>
+        </Grid>
+
+        <!-- Fotó megjelenítés (teljes képernyő) -->
+        <Grid Grid.Row="1">
+            <Image Source="{Binding CurrentPhoto.ImagePath}" 
+                   Aspect="AspectFit"
+                   BackgroundColor="Black"/>
+
+            <!-- Swipe gesture -->
+            <SwipeView>
+                <SwipeView.LeftItems>
+                    <SwipeItems Mode="Execute">
+                        <SwipeItem Command="{Binding NextPhotoCommand}" 
+                                   IsVisible="{Binding HasNext}"
+                                   BackgroundColor="Transparent"/>
+                    </SwipeItems>
+                </SwipeView.LeftItems>
+                <SwipeView.RightItems>
+                    <SwipeItems Mode="Execute">
+                        <SwipeItem Command="{Binding PreviousPhotoCommand}" 
+                                   IsVisible="{Binding HasPrevious}"
+                                   BackgroundColor="Transparent"/>
+                    </SwipeItems>
+                </SwipeView.RightItems>
+            </SwipeView>
+        </Grid>
+
+        <!-- Lábléc - Metaadatok és navigáció -->
+        <Grid Grid.Row="2" BackgroundColor="#222222" Padding="15" RowDefinitions="Auto,Auto,Auto,Auto">
+
+            <!-- GPS koordináta -->
+            <HorizontalStackLayout Grid.Row="0" Spacing="10" Margin="0,0,0,5">
+                <Label Text="📍" FontSize="18" TextColor="White"/>
+                <Label Text="{Binding CurrentPhoto.Latitude, StringFormat='{0:F6}'}" 
+                       FontSize="14" 
+                       TextColor="White"/>
+                <Label Text="," FontSize="14" TextColor="White"/>
+                <Label Text="{Binding CurrentPhoto.Longitude, StringFormat='{0:F6}'}" 
+                       FontSize="14" 
+                       TextColor="White"/>
+            </HorizontalStackLayout>
+
+            <!-- Dátum -->
+            <HorizontalStackLayout Grid.Row="1" Spacing="10" Margin="0,0,0,5">
+                <Label Text="📅" FontSize="18" TextColor="White"/>
+                <Label Text="{Binding CurrentPhoto.Timestamp, StringFormat='{0:yyyy.MM.dd.}'}" 
+                       FontSize="14" 
+                       TextColor="White"/>
+            </HorizontalStackLayout>
+
+            <!-- Idő -->
+            <HorizontalStackLayout Grid.Row="2" Spacing="10" Margin="0,0,0,10">
+                <Label Text="⏰" FontSize="18" TextColor="White"/>
+                <Label Text="{Binding CurrentPhoto.Timestamp, StringFormat='{0:HH:mm:ss}'}" 
+                       FontSize="14" 
+                       TextColor="White"/>
+            </HorizontalStackLayout>
+
+            <!-- Navigációs gombok -->
+            <HorizontalStackLayout Grid.Row="3" Spacing="20" HorizontalOptions="Center">
+                <Button Text="◀️ Előző" 
+                        Command="{Binding PreviousPhotoCommand}"
+                        IsEnabled="{Binding HasPrevious}"
+                        BackgroundColor="#444444"
+                        TextColor="White"
+                        WidthRequest="120"/>
+
+                <Button Text="Következő ▶️" 
+                        Command="{Binding NextPhotoCommand}"
+                        IsEnabled="{Binding HasNext}"
+                        BackgroundColor="#444444"
+                        TextColor="White"
+                        WidthRequest="120"/>
+            </HorizontalStackLayout>
+        </Grid>
+
+    </Grid>
+</ContentPage>

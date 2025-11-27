@@ -102,7 +102,7 @@ namespace DigitalTourDiary
             {
                 Name = "Budai várnegyed séta",
                 Date = DateTime.Today.AddDays(-5),
-                Duration = new TimeSpan(1, 30, 0) // 1 óra 30 perc
+                Duration = new TimeSpan(1, 30, 0)
             };
             tour1.AddRoutePoint(47.4979, 19.0402, DateTime.Now.AddMinutes(-90));
             tour1.AddRoutePoint(47.4985, 19.0408, DateTime.Now.AddMinutes(-80));
@@ -111,12 +111,30 @@ namespace DigitalTourDiary
             tour1.CalculateDistance();
             await database.CreateTourAsync(tour1);
 
+            // Teszt fotók tour1-hez
+            await database.CreatePhotoAsync(new TourPhoto
+            {
+                TourId = tour1.Id,
+                ImagePath = "dotnet_bot.png", // Placeholder kép
+                Latitude = 47.4982,
+                Longitude = 19.0405,
+                Timestamp = DateTime.Now.AddMinutes(-85)
+            });
+            await database.CreatePhotoAsync(new TourPhoto
+            {
+                TourId = tour1.Id,
+                ImagePath = "dotnet_bot.png",
+                Latitude = 47.4992,
+                Longitude = 19.0417,
+                Timestamp = DateTime.Now.AddMinutes(-65)
+            });
+
             // 2. teszt túra - Margitsziget
             var tour2 = new Tour
             {
                 Name = "Margitszigeti kör",
                 Date = DateTime.Today.AddDays(-2),
-                Duration = new TimeSpan(0, 45, 0) // 45 perc
+                Duration = new TimeSpan(0, 45, 0)
             };
             tour2.AddRoutePoint(47.5270, 19.0520, DateTime.Now.AddMinutes(-45));
             tour2.AddRoutePoint(47.5280, 19.0530, DateTime.Now.AddMinutes(-35));
@@ -125,6 +143,32 @@ namespace DigitalTourDiary
             tour2.AddRoutePoint(47.5270, 19.0520, DateTime.Now.AddMinutes(-5));
             tour2.CalculateDistance();
             await database.CreateTourAsync(tour2);
+
+            // Teszt fotók tour2-höz
+            await database.CreatePhotoAsync(new TourPhoto
+            {
+                TourId = tour2.Id,
+                ImagePath = "dotnet_bot.png",
+                Latitude = 47.5275,
+                Longitude = 19.0525,
+                Timestamp = DateTime.Now.AddMinutes(-40)
+            });
+            await database.CreatePhotoAsync(new TourPhoto
+            {
+                TourId = tour2.Id,
+                ImagePath = "dotnet_bot.png",
+                Latitude = 47.5285,
+                Longitude = 19.0528,
+                Timestamp = DateTime.Now.AddMinutes(-30)
+            });
+            await database.CreatePhotoAsync(new TourPhoto
+            {
+                TourId = tour2.Id,
+                ImagePath = "dotnet_bot.png",
+                Latitude = 47.5292,
+                Longitude = 19.0520,
+                Timestamp = DateTime.Now.AddMinutes(-20)
+            });
         }
 
         [RelayCommand]

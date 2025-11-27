@@ -7,6 +7,7 @@ using Mapsui.Styles;
 using Mapsui.Tiling;
 using Mapsui.UI.Maui;
 using NetTopologySuite.Geometries;
+using System.Collections.ObjectModel;
 
 namespace DigitalTourDiary
 {
@@ -39,10 +40,14 @@ namespace DigitalTourDiary
             MapControl.Map.Home = n => n.CenterOnAndZoomTo(centerPoint.ToMPoint(), n.Resolutions[12]);
         }
 
-        protected override void OnNavigatedTo(NavigatedToEventArgs args)
+        protected override async void OnNavigatedTo(NavigatedToEventArgs args)
         {
             base.OnNavigatedTo(args);
-            VM.InitDraft();
+            await VM.InitDraft();
+
+            
+
+
             UpdateMap();
         }
 
@@ -79,6 +84,59 @@ namespace DigitalTourDiary
                 var centerPoint = SphericalMercator.FromLonLat(centerLon, centerLat);
 
                 MapControl.Map?.Navigator.CenterOnAndZoomTo(centerPoint.ToMPoint(), MapControl.Map.Navigator.Resolutions[10]);
+            }
+
+            if (VM.TourPhotos != null && VM.TourPhotos.Count > 0)
+            {
+                foreach (var photo in VM.TourPhotos)
+                {
+                    var photoPoint = SphericalMercator.FromLonLat(photo.Longitude, photo.Latitude);
+                    var photoFeature = new GeometryFeature
+                    {
+                        Geometry = new NetTopologySuite.Geometries.Point(photoPoint.x, photoPoint.y)
+                    };
+                    photoFeature.Styles.Add(new SymbolStyle
+                    {
+                        SymbolScale = 0.8,  // Nagyobb, könnyebb rákattintani
+                        Fill = new Mapsui.Styles.Brush(Mapsui.Styles.Color.Orange),
+                        Outline = new Pen(Mapsui.Styles.Color.White, 2)  // Fehér kontúr
+                    });
+
+                    // Photo index tárolása a feature-ben
+                    var photoIndex = VM.TourPhotos.IndexOf(photo);
+                    photoFeature["PhotoIndex"] = photoIndex;  // Metadata
+
+                    var photoLayer = new MemoryLayer
+                    {
+                        Name = $"Photo_{photoIndex}",
+                        Features = new[] { photoFeature },
+                        Style = null,
+                        IsMapInfoLayer = true  // FONTOS! Info eseményhez
+                    };
+
+                    MapControl.Map?.Layers.Add(photoLayer);
+                }
+            }
+        }
+
+        private async void OnMapInfo(object sender, EventArgs e)
+        {
+            // Casting Mapsui event args-ra
+            var mapInfoArgs = e as dynamic;
+
+            if (mapInfoArgs?.MapInfo?.Feature != null)
+            {
+                // Feature metadata-ból az index
+                var feature = mapInfoArgs.MapInfo.Feature as IFeature;
+                if (feature?["PhotoIndex"] is int photoIndex)
+                {
+                    var param = new ShellNavigationQueryParameters
+            {
+                { "Photos", VM.TourPhotos },
+                { "CurrentIndex", photoIndex }
+            };
+                    await Shell.Current.GoToAsync("photoviewer", param);
+                }
             }
         }
 
@@ -148,5 +206,6 @@ namespace DigitalTourDiary
                 Style = null
             };
         }
+
     }
 }

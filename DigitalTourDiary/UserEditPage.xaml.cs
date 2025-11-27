@@ -1,10 +1,13 @@
 namespace DigitalTourDiary
 {
-    public partial class UserEditPage : ContentPage
+    public partial class PhotoViewerPage : ContentPage
     {
-        public UserEditPage(UserEditPageViewModel viewModel)
+        private PhotoViewerPageViewModel viewModel;
+
+        public PhotoViewerPage(PhotoViewerPageViewModel viewModel)
         {
             InitializeComponent();
+            this.viewModel = viewModel;
             BindingContext = viewModel;
         }
     }
